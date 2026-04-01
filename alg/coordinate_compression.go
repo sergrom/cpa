@@ -1,4 +1,4 @@
-package "alg"
+package alg
 
 // compress - coordinate compression
 func compress(nums []int) map[int]int {
