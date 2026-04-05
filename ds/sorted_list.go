@@ -22,6 +22,11 @@ func (list *SortedInts) Remove(n int) bool {
 	return true
 }
 
+func (list SortedInts) Contains(n int) bool {
+	i := sort.SearchInts(list, n)
+	return i < len(list) && list[i] == n
+}
+
 // ---------------
 
 type item struct {
