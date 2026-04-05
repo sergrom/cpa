@@ -11,10 +11,15 @@ func (list *SortedInts) Insert(n int) {
 	(*list)[i] = n
 }
 
-func (list *SortedInts) Remove(n int) {
+func (list *SortedInts) Remove(n int) bool {
 	i := sort.SearchInts(*list, n)
+	if i >= len(*list) || (*list)[i] != n {
+		return false
+	}
+
 	copy((*list)[i:], (*list)[i+1:])
 	*list = (*list)[:len(*list)-1]
+	return true
 }
 
 // ---------------
