@@ -1,5 +1,7 @@
 package alg
 
+import "sort"
+
 // compress - coordinate compression
 func compress(nums []int) map[int]int {
 	vals := append([]int{}, nums...)

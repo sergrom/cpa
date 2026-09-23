@@ -68,7 +68,9 @@ func suffixArr(s string) []int {
 	}
 
 	return p
-}func sortCyclicShifts(s string) []int {
+}
+
+func sortCyclicShifts(s string) []int {
 	n := len(s)
 	alphabet := 256
 
