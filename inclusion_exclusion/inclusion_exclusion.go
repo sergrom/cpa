@@ -1,8 +1,9 @@
 package inclusionexclusion
 
+// solve counts integers in [1, r] coprime to n. Requires n >= 1 and r >= 0.
 func solve(n, r int) int {
 	p := make([]int, 0)
-	for i := 2; i*i <= n; i++ {
+	for i := 2; i <= n/i; i++ {
 		if n%i == 0 {
 			p = append(p, i)
 			for n%i == 0 {
@@ -18,7 +19,7 @@ func solve(n, r int) int {
 	for msk := 1; msk < (1 << len(p)); msk++ {
 		mult, bits := 1, 0
 		for i := 0; i < len(p); i++ {
-			if msk&(1<<i) == 1 {
+			if msk&(1<<i) != 0 {
 				bits++
 				mult *= p[i]
 			}

@@ -1,16 +1,26 @@
 package alg
 
+import (
+	"math"
+	"math/big"
+)
+
 // Binomial coefficients are the number of ways
 // to select a set of 'k' elements from 'n' different elements
 // without taking into account the order
 // of arrangement of these elements (i.e., the number of unordered sets).
 
+// C returns the exact binomial coefficient. Invalid n or k returns zero.
+// It panics if the result cannot be represented as an int.
 func C(n, k int) int {
-	res := 1.0
-	for i := 1; i <= k; i++ {
-		res = res * float64(n-k+i) / float64(i)
+	if n < 0 || k < 0 || k > n {
+		return 0
 	}
-	return (int)(res + 0.01)
+	value := new(big.Int).Binomial(int64(n), int64(k))
+	if !value.IsInt64() || value.Int64() > int64(math.MaxInt) {
+		panic("C: result overflows int")
+	}
+	return int(value.Int64())
 }
 
 func binomialCoeff(n, r int) int {

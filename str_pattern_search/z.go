@@ -4,18 +4,26 @@ package strpatternsearch
 // Time complexity: O(m + n)
 // Space complexity: O(m + n)
 
-// ZSearch prints all occurrences of pattern in text using Z algo
+// ZSearch returns byte offsets of all matches, including overlaps.
+// An empty pattern matches every boundary, including len(text).
 func ZSearch(text, pattern string) []int {
 	ans := make([]int, 0)
 
+	if len(pattern) == 0 {
+		for i := 0; i <= len(text); i++ {
+			ans = append(ans, i)
+		}
+		return ans
+	}
+	// The separator may also occur in the input: only text offsets are checked,
+	// and matching at least len(pattern) bytes is sufficient.
 	// Construct Z array
 	Z := GetZarr(pattern + "$" + text)
 
 	// now looping through Z array for matching condition
-	for i := 0; i < len(Z); i++ {
-		// if Z[i] (matched region) is equal to pattern
-		// length we got the pattern
-		if Z[i] == len(pattern) {
+	for i := len(pattern) + 1; i < len(Z); i++ {
+		// Longer prefix matches may cross the separator; they still match pattern.
+		if Z[i] >= len(pattern) {
 			ans = append(ans, i-len(pattern)-1)
 		}
 	}

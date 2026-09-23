@@ -1,5 +1,6 @@
 package strpatternsearch
 
+// findLongestPalindromicString finds a longest byte-wise palindrome in O(n) time.
 func findLongestPalindromicString(text string) string {
 	N := len(text)
 	if N == 0 {
@@ -11,7 +12,7 @@ func findLongestPalindromicString(text string) string {
 	L[0], L[1] = 0, 1
 	C, R := 1, 2    // centerPosition, centerRightPosition
 	var iMirror int // currentLeftPosition
-	maxLPSLength, maxLPSCenterPosition := 0, 0
+	maxLPSLength, maxLPSCenterPosition := 1, 1
 	start, end, diff := -1, -1, -1
 
 	// Uncomment it to print LPS Length array
