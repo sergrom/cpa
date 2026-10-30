@@ -4,16 +4,26 @@ import "container/heap"
 
 type PqItem struct {
 	index    int
-	value    string
-	priority int
+	Value    string
+	Priority int
 }
 
 type PriorityQueue []*PqItem
 
+// NewPriorityQueue initializes a max-priority queue with the given items.
+func NewPriorityQueue(items ...*PqItem) *PriorityQueue {
+	pq := PriorityQueue(append([]*PqItem(nil), items...))
+	for i, item := range pq {
+		item.index = i
+	}
+	heap.Init(&pq)
+	return &pq
+}
+
 func (pq PriorityQueue) Len() int { return len(pq) }
 
 func (pq PriorityQueue) Less(i, j int) bool {
-	return pq[i].priority > pq[j].priority
+	return pq[i].Priority > pq[j].Priority
 }
 
 func (pq PriorityQueue) Swap(i, j int) {
@@ -39,18 +49,17 @@ func (pq *PriorityQueue) Pop() any {
 }
 
 func (pq *PriorityQueue) Update(item *PqItem, value string, priority int) {
-	item.value, item.priority = value, priority
+	item.Value, item.Priority = value, priority
 	heap.Fix(pq, item.index)
 }
 
-// Ussage:
-// pq := PriorityQueue{
-// 	&PqItem{index: 0, value: "banana", priority: 3},
-// 	&PqItem{index: 1, value: "apple", priority: 2},
-// 	&PqItem{index: 2, value: "pear", priority: 4},
-// }
-// heap.Init(&pq)
+// Usage:
+// pq := NewPriorityQueue(
+// 	&PqItem{Value: "banana", Priority: 3},
+// 	&PqItem{Value: "apple", Priority: 2},
+// 	&PqItem{Value: "pear", Priority: 4},
+// )
 
-// item1 := heap.Pop(&pq).(*PqItem) // pear (priority=4)
-// item2 := heap.Pop(&pq).(*PqItem) // banana (priority=3)
-// item3 := heap.Pop(&pq).(*PqItem) // apple (priority=2)
+// item1 := heap.Pop(pq).(*PqItem) // pear (Priority=4)
+// item2 := heap.Pop(pq).(*PqItem) // banana (Priority=3)
+// item3 := heap.Pop(pq).(*PqItem) // apple (Priority=2)
